@@ -1,0 +1,7 @@
+{
+  "name": "bsky-fish-xpost",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Soulfire Jarexi Backblaze <soulfire@jarexibackblaze.xyz>",
+  "license": "MIT"
+}

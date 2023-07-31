@@ -21,3 +21,5 @@
 # .pnp.*
 
 # End of https://www.toptal.com/developers/gitignore/api/yarn
+
+node_modules

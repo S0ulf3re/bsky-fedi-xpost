@@ -25,21 +25,35 @@ const BSKY_BASE_URL: string = String(process.env.BSKY_BASE_URL)
 const BSKY_USERNAME: string = String(process.env.BSKY_USERNAME)
 const BSKY_PASSWORD: string = String(process.env.BSKY_PASSWORD)
 
-
-
-
-
-
 // client.getAccountStatuses(FIREFISH_ID, {limit: 1}).then((res: Response<Entity.Status[]>) => {
 //     console.log(res.data)
 // })
 
 
-let bSkyAgent = new BskyAgent ({
-    service: BSKY_BASE_URL,
-})
 
+let bSkyAgent = new BskyAgent ({
+  service: BSKY_BASE_URL,
+  persistSession: (evt: AtpSessionEvent, sess?: AtpSessionData) => {
+    console.log("persistSession", evt, sess);
+    fs.writeFileSync("./bsky-session.json", JSON.stringify(sess));
+  }
+})
 
 const loginToBSky = async () => {
   await bSkyAgent.login({identifier: BSKY_USERNAME, password: BSKY_PASSWORD})
 }
+
+const resumeSession = async () => {
+  await bSkyAgent.resumeSession(JSON.parse(fs.readFileSync("./bsky-session.json").toString()));
+}
+
+// const postToBsky = async () => {
+//   const rt = new RichText({ text: "testing" });
+//   const postRecord = {
+//     $type: "app.bsky.feed.post",
+//     text: rt.text,
+//     facets: rt.facets,
+//     createdAt: new Date().toISOString(),
+//   };
+//   await bSkyAgent.post(postRecord);
+// };

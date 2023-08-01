@@ -3,5 +3,11 @@
   "version": "1.0.0",
   "main": "index.js",
   "author": "Soulfire Jarexi Backblaze <soulfire@jarexibackblaze.xyz>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@atproto/api": "^0.4.3",
+    "dotenv": "^16.3.1",
+    "megalodon": "^6.1.5",
+    "typescript": "^5.1.6"
+  }
 }

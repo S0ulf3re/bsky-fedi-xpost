@@ -31,29 +31,41 @@ const BSKY_PASSWORD: string = String(process.env.BSKY_PASSWORD)
 
 
 
-let bSkyAgent = new BskyAgent ({
+const bSkyAgent = new BskyAgent({
   service: BSKY_BASE_URL,
   persistSession: (evt: AtpSessionEvent, sess?: AtpSessionData) => {
-    console.log("persistSession", evt, sess);
-    fs.writeFileSync("./bsky-session.json", JSON.stringify(sess));
+    // persist session data to disk
+    fs.writeFileSync('session.json', JSON.stringify(sess))
   }
 })
 
-const loginToBSky = async () => {
-  await bSkyAgent.login({identifier: BSKY_USERNAME, password: BSKY_PASSWORD})
+async function loginBskyAgent(username: string, password: string): Promise<void> {
+  await bSkyAgent.login({ identifier: username, password: password });
 }
 
-const resumeSession = async () => {
-  await bSkyAgent.resumeSession(JSON.parse(fs.readFileSync("./bsky-session.json").toString()));
+async function resumeBskySession(): Promise<void> {
+  await bSkyAgent.resumeSession(JSON.parse(fs.readFileSync('session.json').toString()));
 }
 
-// const postToBsky = async () => {
-//   const rt = new RichText({ text: "testing" });
-//   const postRecord = {
-//     $type: "app.bsky.feed.post",
-//     text: rt.text,
-//     facets: rt.facets,
-//     createdAt: new Date().toISOString(),
-//   };
-//   await bSkyAgent.post(postRecord);
-// };
+
+
+
+async function postToBsky(): Promise<void> {
+  const rt = new RichText({ text: "testing" });
+  const postRecord = {
+    $type: "app.bsky.feed.post",
+    text: rt.text,
+    facets: rt.facets,
+    createdAt: new Date().toISOString(),
+  };
+  await bSkyAgent.post(postRecord);
+};
+
+loginBskyAgent(BSKY_USERNAME, BSKY_PASSWORD).then(() => {
+  console.log("Logged in to Bluesky")
+}).then(() => {
+  resumeBskySession();
+  postToBsky();
+}).catch((err) => {
+  console.log(err);
+})

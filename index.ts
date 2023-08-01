@@ -28,24 +28,18 @@ const BSKY_PASSWORD: string = String(process.env.BSKY_PASSWORD)
 
 
 
-// const postToBsky = async () => {
 
-
-//   const rt = new RichText({ text: "testing" });
-//   const postRecord = {
-//     $type: "app.bsky.feed.post",
-//     text: rt.text,
-//     facets: rt.facets,
-//     createdAt: new Date().toISOString(),
-//   };
-//   await bSkyAgent.post(postRecord);
-// };
 
 // client.getAccountStatuses(FIREFISH_ID, {limit: 1}).then((res: Response<Entity.Status[]>) => {
 //     console.log(res.data)
 // })
 
 
-let bSkyManager = new BSkyManager(BSKY_BASE_URL);
-let bSkyAgent = bSkyManager.bSkyAgent;
+let bSkyAgent = new BskyAgent ({
+    service: BSKY_BASE_URL,
+})
 
+
+const loginToBSky = async () => {
+  await bSkyAgent.login({identifier: BSKY_USERNAME, password: BSKY_PASSWORD})
+}

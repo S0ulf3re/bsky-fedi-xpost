@@ -1,71 +1,74 @@
-import generator, { Entity, Response } from 'megalodon'
-import { BskyAgent, AtpSessionEvent, AtpSessionData, RichText } from '@atproto/api'
-import * as fs from 'fs';
-import { BSkyManager } from './bSkyManager';
+import {
+  BskyAgent,
+  AtpSessionEvent,
+  AtpSessionData,
+  RichText,
+  ComAtprotoServerCreateSession,
+  AppBskyFeedGetAuthorFeed,
+  AppBskyActorGetProfile
+} from "@atproto/api";
+import * as fs from "fs";
+import { BSkyManager } from "./bSkyManager";
+import { FirefishManager } from "./firefishManager";
+import { isReasonRepost } from "@atproto/api/dist/client/types/app/bsky/feed/defs";
+
 // Import .env file
-const dotenv = require('dotenv').config()
+const dotenv = require("dotenv").config();
 
+// Create the Firefish Manager object using the contents of .env
+const firefishManager = new FirefishManager(
+  // The specified instance URL
+  String(process.env.FIREFISH_BASE_URL),
 
-// The base URL of the Firefish API
-const FIREFISH_BASE_WSS: string = String(process.env.FIREFISH_BASE_WSS)
+  // The User ID to watch posts for
+  String(process.env.FIREFISH_ID),
 
-// The Firefish User ID
-const FIREFISH_ID: string = String(process.env.FIREFISH_ID)
+  // The API key to use for posting
+  String(process.env.FIREFISH_API_KEY)
+);
 
-// The assigned API key for the Firefish API
-const FIREFISH_API_KEY: string = String(process.env.FIREFISH_API_KEY)
-
-// Create the Firefish client object
-const client = generator('misskey', FIREFISH_BASE_WSS, FIREFISH_API_KEY)
+// firefishManager.getLatestFirefishStatus().then((value: Entity.Status) => {
+//   console.log(value.plain_content);
+// });
 
 // The Base URL of Bluesky
-const BSKY_BASE_URL: string = String(process.env.BSKY_BASE_URL)
+const BSKY_BASE_URL: string = String(process.env.BSKY_BASE_URL);
 
 // The login credentials for Bluesky
-const BSKY_USERNAME: string = String(process.env.BSKY_USERNAME)
-const BSKY_PASSWORD: string = String(process.env.BSKY_PASSWORD)
-
-// client.getAccountStatuses(FIREFISH_ID, {limit: 1}).then((res: Response<Entity.Status[]>) => {
-//     console.log(res.data)
-// })
-
-
+const BSKY_USERNAME: string = String(process.env.BSKY_USERNAME);
+const BSKY_PASSWORD: string = String(process.env.BSKY_PASSWORD);
 
 const bSkyAgent = new BskyAgent({
   service: BSKY_BASE_URL,
   persistSession: (evt: AtpSessionEvent, sess?: AtpSessionData) => {
     // persist session data to disk
-    fs.writeFileSync('session.json', JSON.stringify(sess))
-  }
+    fs.writeFileSync("session.json", JSON.stringify(sess));
+  },
+});
+
+
+// Create new bSkyManager object to manage making and retrieving posts
+const bSkyManager = new BSkyManager(
+  BSKY_BASE_URL,
+  BSKY_USERNAME,
+  BSKY_PASSWORD,
+  bSkyAgent
+);
+
+
+const didPlc = "did:plc:bzq7nddu2ell26dsde5ba74g"
+bSkyManager.loginBskyAgent()
+bSkyManager.resumeBskySession()
+bSkyManager.getBskyProfile().then((value: AppBskyActorGetProfile.Response) => {
+  console.log(value.data.did)
 })
 
-async function loginBskyAgent(username: string, password: string): Promise<void> {
-  await bSkyAgent.login({ identifier: username, password: password });
-}
+// bSkyManager.getBskyAuthorFeed().then((value: AppBskyFeedGetAuthorFeed.Response) => {
 
-async function resumeBskySession(): Promise<void> {
-  await bSkyAgent.resumeSession(JSON.parse(fs.readFileSync('session.json').toString()));
-}
+//   // This is the farthest that the AT Proto API can take us. Anything else is going to need to be manually parsed.
+//   //let parsedData = bSkyManager.parseLatestBskyPost(value);
+//   console.log(value.data.feed[0].reply?.parent.author);
 
+//   console.log(bSkyManager.determineIfRepost(value.data.feed[0]));
 
-
-
-async function postToBsky(): Promise<void> {
-  const rt = new RichText({ text: "testing" });
-  const postRecord = {
-    $type: "app.bsky.feed.post",
-    text: rt.text,
-    facets: rt.facets,
-    createdAt: new Date().toISOString(),
-  };
-  await bSkyAgent.post(postRecord);
-};
-
-loginBskyAgent(BSKY_USERNAME, BSKY_PASSWORD).then(() => {
-  console.log("Logged in to Bluesky")
-}).then(() => {
-  resumeBskySession();
-  postToBsky();
-}).catch((err) => {
-  console.log(err);
-})
+// })

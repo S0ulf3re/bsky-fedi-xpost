@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+      "target": "es2017",
+      "esModuleInterop": true,
+      "moduleResolution": "node",
+      "outDir": "dist",
+      "module": "commonjs"
+  }
+}

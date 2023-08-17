@@ -6,13 +6,14 @@ import {
     AppBskyFeedGetAuthorFeed,
     ComAtprotoServerCreateSession,
     AppBskyActorGetProfile,
+    FeedViewPost,
 } from "@atproto/api";
 import {
     FeedViewPost,
     ReasonRepost,
 } from "@atproto/api/dist/client/types/app/bsky/feed/defs";
-import {BSkyManager} from "./BSkyManager";
-import {BSkyNetworkManager} from "./BSkyNetworkManager";
+import {BSkyManager} from "../BSkyManager";
+import {BSkyNetworkManager} from "../BSkyNetworkManager";
 
 export class BSkyFeedNetworkManager extends BSkyNetworkManager {
 

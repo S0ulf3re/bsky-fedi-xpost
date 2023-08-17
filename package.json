@@ -2,13 +2,15 @@
   "name": "bsky-fish-xpost",
   "version": "1.0.0",
   "scripts": {
-    "start": "ts-node src/index.ts"
+    "build": "tsc --project tsconfig.json",
+    "start": "node dist/index.js"
   },
-  "main": "index.js",
+  "main": "./index.js",
+  "type": "module",
   "author": "Soulfire Jarexi Backblaze <soulfire@jarexibackblaze.xyz>",
   "license": "MIT",
   "dependencies": {
-    "@atproto/api": "^0.6.3",
+    "@atproto/api": "^0.6.4",
     "dotenv": "^16.3.1",
     "megalodon": "^6.1.5",
     "typescript": "^5.1.6"

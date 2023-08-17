@@ -1,9 +1,12 @@
 {
   "compilerOptions": {
-      "target": "es2017",
-      "esModuleInterop": true,
-      "moduleResolution": "node",
-      "outDir": "dist",
-      "module": "commonjs"
-  }
+    "target": "es2017",
+    "module": "es2022",
+    "esModuleInterop": true,
+    "outDir": "dist",
+    "moduleResolution": "NodeNext",
+    "sourceMap": true,
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"],
 }

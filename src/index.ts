@@ -11,7 +11,7 @@ import * as fs from "fs";
 import { BSkyManager } from "./services/bSky/BSkyManager";
 import {FeedViewPost, isReasonRepost} from "@atproto/api/dist/client/types/app/bsky/feed/defs";
 import {BSkyNetworkManager} from "./services/bSky/BSkyNetworkManager";
-import {BSkyFeedManager} from "./services/bSky/BSkyFeedManager";
+import {BSkyFeedManager} from "./services/bSky/feed/BSkyFeedManager";
 import {FirefishManager} from "./services/fedi/FirefishManager";
 
 // Import .env file
@@ -83,8 +83,8 @@ async function resumeBskySession() {
 resumeBskySession()
 
 // Get my newest post from bluesky
-
-
+let latestPost = await bSkyFeedManager.getLatestBskyFeed()
+console.log("latestPost")
 // Check if the post is a repost
 
 

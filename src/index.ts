@@ -8,9 +8,11 @@ import {
   AppBskyActorGetProfile
 } from "@atproto/api";
 import * as fs from "fs";
-import { BSkyManager } from "./bSkyManager";
-import { FirefishManager } from "./firefishManager";
-import { isReasonRepost } from "@atproto/api/dist/client/types/app/bsky/feed/defs";
+import { BSkyManager } from "./services/bSky/BSkyManager";
+import {FeedViewPost, isReasonRepost} from "@atproto/api/dist/client/types/app/bsky/feed/defs";
+import {BSkyNetworkManager} from "./services/bSky/BSkyNetworkManager";
+import {BSkyFeedManager} from "./services/bSky/BSkyFeedManager";
+import {FirefishManager} from "./services/fedi/FirefishManager";
 
 // Import .env file
 const dotenv = require("dotenv").config();
@@ -27,9 +29,12 @@ const firefishManager = new FirefishManager(
   String(process.env.FIREFISH_API_KEY)
 );
 
-// firefishManager.getLatestFirefishStatus().then((value: Entity.Status) => {
-//   console.log(value.plain_content);
-// });
+
+// Get my newest status from Firefish
+
+
+//
+
 
 // The Base URL of Bluesky
 const BSKY_BASE_URL: string = String(process.env.BSKY_BASE_URL);
@@ -51,24 +56,38 @@ const bSkyAgent = new BskyAgent({
 const bSkyManager = new BSkyManager(
   BSKY_BASE_URL,
   BSKY_USERNAME,
-  BSKY_PASSWORD,
-  bSkyAgent
+  BSKY_PASSWORD
 );
 
+const bSkyNetworkManager = new BSkyNetworkManager(bSkyAgent, bSkyManager);
+
+const bSkyFeedManager = new BSkyFeedManager(bSkyAgent, bSkyManager);
 
 const didPlc = "did:plc:bzq7nddu2ell26dsde5ba74g"
-bSkyManager.loginBskyAgent()
-bSkyManager.resumeBskySession()
-bSkyManager.getBskyProfile().then((value: AppBskyActorGetProfile.Response) => {
-  console.log(value.data.did)
-})
 
-// bSkyManager.getBskyAuthorFeed().then((value: AppBskyFeedGetAuthorFeed.Response) => {
+async function loginBskyAgent() {
+    await bSkyAgent.login({
+        identifier: BSKY_USERNAME,
+        password: BSKY_PASSWORD,
+    });
+}
 
-//   // This is the farthest that the AT Proto API can take us. Anything else is going to need to be manually parsed.
-//   //let parsedData = bSkyManager.parseLatestBskyPost(value);
-//   console.log(value.data.feed[0].reply?.parent.author);
+loginBskyAgent()
 
-//   console.log(bSkyManager.determineIfRepost(value.data.feed[0]));
+async function resumeBskySession() {
+    let resumedSession = await bSkyAgent.resumeSession(
+        JSON.parse(fs.readFileSync("session.json").toString())
+    );
+}
 
-// })
+resumeBskySession()
+
+// Get my newest post from bluesky
+
+
+// Check if the post is a repost
+
+
+// If the post is a repost, ignore it and return. Since a repost can't be attached as a reply, we don't need to worry about parents
+
+

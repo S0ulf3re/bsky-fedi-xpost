@@ -44,6 +44,7 @@ BSKY_PASSWORD="pass-word-goes-here"
 Replace `FIREFISH_ID` and `FIREFISH_API_KEY` with your user ID and API Key (With permission granted to read and write notes). And `BSKY_USERNAME` and `BSKY_PASSWORD` with your username and an **app** password.
 
 
-2. TBD
+2. (Building currently doesn't work while figuring out top level `async` ensues)
+This program uses Yarn as it's package manager, [Megalodon](https://h3poteto.github.io/megalodon/) and the [Bluesky API library](https://www.npmjs.com/package/@atproto/api?activeTab=readme), so you will need to add those:
 
-(Building currently doesn't work while figuring out top level `async` ensues)
+`yarn add megalodon @atproto/api`

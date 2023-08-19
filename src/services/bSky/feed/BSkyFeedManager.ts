@@ -7,7 +7,7 @@ import {
     ComAtprotoServerCreateSession,
     AppBskyActorGetProfile,
   } from "@atproto/api";
-import {BSkyNetworkManager} from "../BSkyNetworkManager";
+import {BSkyNetworkManager} from "../BSkyNetworkManager.js";
 
 export class BSkyFeedManager extends BSkyNetworkManager {
 

@@ -7,11 +7,8 @@ import {
     ComAtprotoServerCreateSession,
     AppBskyActorGetProfile,
 } from "@atproto/api";
-import {
-    FeedViewPost,
-    ReasonRepost,
-} from "@atproto/api/dist/client/types/app/bsky/feed/defs";
-import {BSkyManager} from "./BSkyManager";
+
+import {BSkyManager} from "./BSkyManager.js";
 
 export class BSkyNetworkManager {
 

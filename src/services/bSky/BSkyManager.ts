@@ -7,13 +7,7 @@ import {
   ComAtprotoServerCreateSession,
   AppBskyActorGetProfile,
 } from "@atproto/api";
-import {
-  FeedViewPost,
-  ReasonRepost,
-} from "@atproto/api/dist/client/types/app/bsky/feed/defs";
-import { ReasonType } from "@atproto/api/dist/client/types/com/atproto/moderation/defs";
-import * as fs from "fs";
-import {toKnownErr} from "@atproto/api/dist/client/types/app/bsky/feed/getAuthorFeed";
+
 
 
 // BSkyManager - Stores information needed to interact with the bSky API. As well as help handle the process of logging in.

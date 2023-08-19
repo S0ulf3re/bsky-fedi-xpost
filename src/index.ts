@@ -8,11 +8,10 @@ import {
   AppBskyActorGetProfile
 } from "@atproto/api";
 import * as fs from "fs";
-import { BSkyManager } from "./services/bSky/BSkyManager";
-import {FeedViewPost, isReasonRepost} from "@atproto/api/dist/client/types/app/bsky/feed/defs";
-import {BSkyNetworkManager} from "./services/bSky/BSkyNetworkManager";
-import {BSkyFeedManager} from "./services/bSky/feed/BSkyFeedManager";
-import {FirefishManager} from "./services/fedi/FirefishManager";
+import { BSkyManager } from "./services/bSky/BSkyManager.js";
+import {BSkyNetworkManager} from "./services/bSky/BSkyNetworkManager.js";
+import {BSkyFeedManager} from "./services/bSky/feed/BSkyFeedManager.js";
+import {FirefishManager} from "./services/fedi/FirefishManager.js";
 
 // Import .env file
 const dotenv = require("dotenv").config();

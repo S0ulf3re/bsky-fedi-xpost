@@ -20,7 +20,7 @@ export class FirefishManager {
     this.apiKey = apiKey;
 
     // Firefish is a fork of Misskey, and remains relatively compatible with it's API
-    this.client = generator("misskey", this.baseURL, this.apiKey);
+    // this.client = new generator("misskey", this.baseURL, this.apiKey);
   }
 
   // Retrieve the latest status from a user

@@ -11,7 +11,6 @@ import * as fs from "fs";
 import { BSkyManager } from "./services/bSky/BSkyManager";
 import {FeedViewPost, isReasonRepost} from "@atproto/api/dist/client/types/app/bsky/feed/defs";
 import {BSkyNetworkManager} from "./services/bSky/BSkyNetworkManager";
-import {BSkyFeedManager} from "./services/bSky/BSkyFeedManager";
 import {FirefishManager} from "./services/fedi/FirefishManager";
 
 // Import .env file
@@ -61,7 +60,6 @@ const bSkyManager = new BSkyManager(
 
 const bSkyNetworkManager = new BSkyNetworkManager(bSkyAgent, bSkyManager);
 
-const bSkyFeedManager = new BSkyFeedManager(bSkyAgent, bSkyManager);
 
 const didPlc = "did:plc:bzq7nddu2ell26dsde5ba74g"
 
